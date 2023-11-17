@@ -12,11 +12,11 @@ func Run(text string, targetWord string) (result float64) {
 		return
 	}
 
-	wordsArray := strings.Split(text, " ")
+	wordArray := strings.Split(text, " ")
 
 	var indexArray []int
 
-	for index, word := range wordsArray {
+	for index, word := range wordArray {
 		if word == targetWord {
 			indexArray = append(indexArray, index)
 		}
@@ -33,7 +33,7 @@ func Run(text string, targetWord string) (result float64) {
 	for i, v := range indexArray {
 
 		// proximity index
-		result *= ((float64(len(wordsArray)) - float64(v)) / float64(len(wordsArray))) +
+		result *= ((float64(len(wordArray)) - float64(v)) / float64(len(wordArray))) +
 			ensureValueIsMoreThanOne
 
 		if i == len(indexArray)-1 {
@@ -41,12 +41,12 @@ func Run(text string, targetWord string) (result float64) {
 		}
 
 		// distribution index
-		result *= float64(indexArray[i+1]-v)/float64(len(wordsArray)) +
+		result *= float64(indexArray[i+1]-v)/float64(len(wordArray)) +
 			ensureValueIsMoreThanOne
 	}
 
 	// frequency index
-	result *= float64(len(indexArray))/float64(len(wordsArray)) +
+	result *= float64(len(indexArray))/float64(len(wordArray)) +
 		ensureValueIsMoreThanOne
 
 	result -= 1
