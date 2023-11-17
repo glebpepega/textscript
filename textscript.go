@@ -5,8 +5,8 @@ import (
 )
 
 // Run executes a text script that return a "coefficient" for a word in a
-// text based on three parameters: proximity of a word to the beginning of the
-// text, distribution of a word across the text and frequency of a word in the text.
+// text based on three parameters: proximity of the word to the beginning of the
+// text, distribution of the word across the text and frequency of the word in the text.
 // You may also tune up and down the coefficient tune.
 func Run(text string, targetWord string, coefficientTune int) (result float64) {
 	result = 1
