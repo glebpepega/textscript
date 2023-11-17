@@ -1,4 +1,4 @@
-package textscript
+package main
 
 import (
 	"strings"
@@ -9,11 +9,9 @@ import (
 // text, distribution of the word across the text and frequency of the word in the text.
 // You may also tune up and down the coefficient tune.
 func Run(text string, targetWord string, coefficientTune int) (result float64) {
-	if coefficientTune == 0 {
+	if coefficientTune == 0 || text == "" || targetWord == "" {
 		return
 	}
-
-	result = 1
 
 	wordsArray := strings.Split(text, " ")
 
@@ -28,6 +26,8 @@ func Run(text string, targetWord string, coefficientTune int) (result float64) {
 	if len(indexArray) == 0 {
 		return
 	}
+
+	result = 1
 
 	const ensureValueIsMoreThanOne = float64(1)
 
@@ -52,6 +52,8 @@ func Run(text string, targetWord string, coefficientTune int) (result float64) {
 	result *= float64(len(indexArray))/float64(len(wordsArray))/
 		float64(coefficientTune) +
 		ensureValueIsMoreThanOne
+
+	result -= 1
 
 	return
 }
