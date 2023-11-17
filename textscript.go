@@ -4,7 +4,11 @@ import (
 	"strings"
 )
 
-func Run(text string, targetWord string) (result float64) {
+// Run executes a text script that return a "coefficient" for a word in a
+// text based on three parameters: proximity of a word to the beginning of the
+// text, distribution of a word across the text and frequency of a word in the text.
+// You may also tune up and down the coefficient tune.
+func Run(text string, targetWord string, coefficientTune int) (result float64) {
 	result = 1
 
 	wordsArray := strings.Split(text, " ")
@@ -23,27 +27,23 @@ func Run(text string, targetWord string) (result float64) {
 		return
 	}
 
-	// ибо нехуй
 	const ensureValueIsMoreThanOne = float64(1)
-
-	// чем больше значение tuneCoefficient, тем меньше коэф разъебывается
-	tuneCoefficient := float64(1)
 
 	for i, v := range indexArray {
 
-		// коэф по близости к началу
-		result *= ((float64(len(wordsArray))-float64(v))/float64(len(wordsArray)))/tuneCoefficient + ensureValueIsMoreThanOne
+		// proximity index
+		result *= ((float64(len(wordsArray))-float64(v))/float64(len(wordsArray)))/float64(coefficientTune) + ensureValueIsMoreThanOne
 
 		if i == len(indexArray)-1 {
 			break
 		}
 
-		// коэф по распределенности слова
-		result *= float64(indexArray[i+1]-v)/float64(len(wordsArray))/tuneCoefficient + ensureValueIsMoreThanOne
+		// distribution index
+		result *= float64(indexArray[i+1]-v)/float64(len(wordsArray))/float64(coefficientTune) + ensureValueIsMoreThanOne
 	}
 
-	// коэф по количеству слова
-	result *= float64(len(indexArray))/float64(len(wordsArray))/tuneCoefficient + ensureValueIsMoreThanOne
+	// frequency index
+	result *= float64(len(indexArray))/float64(len(wordsArray))/float64(coefficientTune) + ensureValueIsMoreThanOne
 
 	return
 }
