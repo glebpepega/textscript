@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-// Run executes a text script that return a "coefficient" for a word in a
+// Run executes a text script that returns a "coefficient" for a word in a
 // text based on three parameters: proximity of the word to the beginning of the
 // text, distribution of the word across the text and frequency of the word in the text.
 func Run(text string, targetWord string) (result float64) {
