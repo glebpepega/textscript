@@ -1,23 +1,8 @@
 package textscript
 
 import (
-	"fmt"
-	"log"
-	"os"
 	"strings"
 )
-
-func main() {
-	content, err := os.ReadFile("text.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	text := strings.ToLower(string(content))
-	targetWord := strings.ToLower("sample")
-
-	fmt.Println(Run(text, targetWord))
-}
 
 func Run(text string, targetWord string) (result float64) {
 	result = 1
