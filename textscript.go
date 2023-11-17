@@ -7,9 +7,8 @@ import (
 // Run executes a text script that return a "coefficient" for a word in a
 // text based on three parameters: proximity of the word to the beginning of the
 // text, distribution of the word across the text and frequency of the word in the text.
-// You may also tune up and down the coefficient tune.
-func Run(text string, targetWord string, coefficientTune int) (result float64) {
-	if coefficientTune == 0 || text == "" || targetWord == "" {
+func Run(text string, targetWord string) (result float64) {
+	if text == "" || targetWord == "" {
 		return
 	}
 
@@ -34,8 +33,7 @@ func Run(text string, targetWord string, coefficientTune int) (result float64) {
 	for i, v := range indexArray {
 
 		// proximity index
-		result *= ((float64(len(wordsArray))-float64(v))/float64(len(wordsArray)))/
-			float64(coefficientTune) +
+		result *= ((float64(len(wordsArray)) - float64(v)) / float64(len(wordsArray))) +
 			ensureValueIsMoreThanOne
 
 		if i == len(indexArray)-1 {
@@ -43,14 +41,12 @@ func Run(text string, targetWord string, coefficientTune int) (result float64) {
 		}
 
 		// distribution index
-		result *= float64(indexArray[i+1]-v)/float64(len(wordsArray))/
-			float64(coefficientTune) +
+		result *= float64(indexArray[i+1]-v)/float64(len(wordsArray)) +
 			ensureValueIsMoreThanOne
 	}
 
 	// frequency index
-	result *= float64(len(indexArray))/float64(len(wordsArray))/
-		float64(coefficientTune) +
+	result *= float64(len(indexArray))/float64(len(wordsArray)) +
 		ensureValueIsMoreThanOne
 
 	result -= 1
