@@ -16,10 +16,10 @@ func main() {
 	text := strings.ToLower(string(content))
 	targetWord := strings.ToLower("sample")
 
-	fmt.Println(script(text, targetWord))
+	fmt.Println(Run(text, targetWord))
 }
 
-func script(text string, targetWord string) (result float64) {
+func Run(text string, targetWord string) (result float64) {
 	result = 1
 
 	wordsArray := strings.Split(text, " ")
