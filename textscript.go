@@ -9,6 +9,10 @@ import (
 // text, distribution of the word across the text and frequency of the word in the text.
 // You may also tune up and down the coefficient tune.
 func Run(text string, targetWord string, coefficientTune int) (result float64) {
+	if coefficientTune == 0 {
+		return
+	}
+
 	result = 1
 
 	wordsArray := strings.Split(text, " ")
@@ -22,8 +26,6 @@ func Run(text string, targetWord string, coefficientTune int) (result float64) {
 	}
 
 	if len(indexArray) == 0 {
-		result = 0
-
 		return
 	}
 
@@ -32,18 +34,24 @@ func Run(text string, targetWord string, coefficientTune int) (result float64) {
 	for i, v := range indexArray {
 
 		// proximity index
-		result *= ((float64(len(wordsArray))-float64(v))/float64(len(wordsArray)))/float64(coefficientTune) + ensureValueIsMoreThanOne
+		result *= ((float64(len(wordsArray))-float64(v))/float64(len(wordsArray)))/
+			float64(coefficientTune) +
+			ensureValueIsMoreThanOne
 
 		if i == len(indexArray)-1 {
 			break
 		}
 
 		// distribution index
-		result *= float64(indexArray[i+1]-v)/float64(len(wordsArray))/float64(coefficientTune) + ensureValueIsMoreThanOne
+		result *= float64(indexArray[i+1]-v)/float64(len(wordsArray))/
+			float64(coefficientTune) +
+			ensureValueIsMoreThanOne
 	}
 
 	// frequency index
-	result *= float64(len(indexArray))/float64(len(wordsArray))/float64(coefficientTune) + ensureValueIsMoreThanOne
+	result *= float64(len(indexArray))/float64(len(wordsArray))/
+		float64(coefficientTune) +
+		ensureValueIsMoreThanOne
 
 	return
 }
