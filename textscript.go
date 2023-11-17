@@ -26,9 +26,9 @@ func Run(text string, targetWord string) (result float64) {
 		return
 	}
 
-	result = 1
-
 	const ensureValueIsMoreThanOne = float64(1)
+
+	result = ensureValueIsMoreThanOne
 
 	for i, v := range indexArray {
 
