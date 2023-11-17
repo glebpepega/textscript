@@ -49,7 +49,7 @@ func Run(text string, targetWord string) (result float64) {
 	result *= float64(len(indexArray))/float64(len(wordArray)) +
 		ensureValueIsMoreThanOne
 
-	result -= 1
+	result -= ensureValueIsMoreThanOne
 
 	return
 }
