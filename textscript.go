@@ -4,20 +4,24 @@ import (
 	"strings"
 )
 
-// Run executes a text script that returns a "coefficient" for a word in a
-// text based on three parameters: proximity of the word to the beginning of the
-// text, distribution of the word across the text and frequency of the word in the text.
-func Run(text string, targetWord string) (result float64) {
-	if text == "" || targetWord == "" {
+const ensureValueIsBiggerThanOne = float64(1)
+
+// Run executes a text script that returns a "coefficient" for a word in
+// a text based on two parameters: proximity of the word to the beginning
+// of the text and distribution of the word across the text.
+func Run(text []byte, targetWord string) (result float64) {
+	strText := strings.ToLower(string(text))
+	targetWordLower := strings.ToLower(targetWord)
+
+	if strText == "" || targetWordLower == "" {
 		return
 	}
 
-	wordArray := strings.Split(text, " ")
-
+	wordArray := strings.Split(strText, " ")
 	var indexArray []int
 
 	for index, word := range wordArray {
-		if word == targetWord {
+		if strings.Contains(word, targetWordLower) {
 			indexArray = append(indexArray, index)
 		}
 	}
@@ -26,30 +30,24 @@ func Run(text string, targetWord string) (result float64) {
 		return
 	}
 
-	const ensureValueIsMoreThanOne = float64(1)
+	result = ensureValueIsBiggerThanOne
 
-	result = ensureValueIsMoreThanOne
+	for i, wordIndex := range indexArray {
 
-	for i, v := range indexArray {
-
-		// proximity index
-		result *= ((float64(len(wordArray)) - float64(v)) / float64(len(wordArray))) +
-			ensureValueIsMoreThanOne
+		// Proximity index
+		result *= ((float64(len(wordArray)) - float64(wordIndex)) / float64(len(wordArray))) +
+			ensureValueIsBiggerThanOne
 
 		if i == len(indexArray)-1 {
 			break
 		}
 
-		// distribution index
-		result *= float64(indexArray[i+1]-v)/float64(len(wordArray)) +
-			ensureValueIsMoreThanOne
+		// Distribution index
+		result *= float64(indexArray[i+1]-wordIndex)/float64(len(wordArray)) +
+			ensureValueIsBiggerThanOne
 	}
 
-	// frequency index
-	result *= float64(len(indexArray))/float64(len(wordArray)) +
-		ensureValueIsMoreThanOne
-
-	result -= ensureValueIsMoreThanOne
+	result -= ensureValueIsBiggerThanOne
 
 	return
 }
